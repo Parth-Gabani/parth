@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html lang="en" class="default-style layout-fixed layout-navbar-fixed">
+
+<!-- Mirrored from html.phoenixcoded.net/empire/bootstrap/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Feb 2023 06:20:32 GMT -->
+
+<head>
+  <title>Empire | B4+ admin template</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="description"
+    content="Empire is one of the unique admin template built on top of Bootstrap 4 framework. It is easy to customize, flexible code styles, well tested, modern & responsive are the topmost key factors of Empire Dashboard Template" />
+  <meta name="keywords"
+    content="bootstrap admin template, dashboard template, backend panel, bootstrap 4, backend template, dashboard template, saas admin, CRM dashboard, eCommerce dashboard">
+  <meta name="author" content="Codedthemes" />
+  <link rel="icon" type="image/x-icon" href="/public/assets/img/favicon.ico">
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+  <!-- Icon fonts -->
+  <link rel="stylesheet" href="/public/assets/fonts/fontawesome.css">
+  <link rel="stylesheet" href="/public/assets/fonts/ionicons.css">
+  <link rel="stylesheet" href="/public/assets/fonts/linearicons.css">
+  <link rel="stylesheet" href="/public/assets/fonts/open-iconic.css">
+  <link rel="stylesheet" href="/public/assets/fonts/pe-icon-7-stroke.css">
+  <link rel="stylesheet" href="/public/assets/fonts/feather.css">
+
+  <!-- Core stylesheets -->
+  <link rel="stylesheet" href="/public/assets/css/bootstrap-material.css">
+  <link rel="stylesheet" href="/public/assets/css/shreerang-material.css">
+  <link rel="stylesheet" href="/public/assets/css/uikit.css">
+
+  <!-- Libs -->
+  <link rel="stylesheet" href="/public/assets/libs/perfect-scrollbar/perfect-scrollbar.css">
+  <link rel="stylesheet" href="/public/assets/libs/bootstrap-select/bootstrap-select.css">
+  <link rel="stylesheet" href="/public/assets/libs/bootstrap-multiselect/bootstrap-multiselect.css">
+  <link rel="stylesheet" href="/public/assets/libs/select2/select2.css">
+  <link rel="stylesheet" href="/public/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css">
+
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+</head>
+
+<body>
+  <!-- [ Preloader ] Start -->
+  <div class="page-loader">
+    <div class="bg-primary"></div>
+  </div>
+  <!-- [ Preloader ] End -->
+
+  <!-- [ Layout wrapper ] Start -->
+  <div class="layout-wrapper layout-2">
+    <div class="layout-inner">
+      <!-- [ Layout sidenav ] Start -->
+      <%- include('nav'); %>
+        <!-- [ Layout sidenav ] End -->
+        <!-- [ Layout container ] Start -->
+        <div class="layout-container">
+          <!-- [ Layout navbar ( Header ) ] Start -->
+          <%- include('sidenav'); %>
+            <!-- [ Layout navbar ( Header ) ] End -->
+
+            <!-- [ Layout content ] Start -->
+            <div class="layout-content">
+
+              <!-- [ content ] Start -->
+              <div class="container-fluid flex-grow-1 container-p-y">
+                <h4 class="font-weight-bold py-3 mb-0">View Catalog</h4>
+                <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                      <a href="#">
+                        <i class="feather icon-home"></i>
+                      </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a href="#">Catalog</a>
+                    </li>
+                    <li class="breadcrumb-item active">View Catalog</li>
+                  </ol>
+                </div>
+                <div>
+
+                  <div class="card mb-4" style="display:inline-block;width:100%">
+                    <div class="card">
+                      <div class="card-body">
+
+                        <!-- <div class="card col-md-2" id="bootstrap-table-toolbar"> -->
+                        <button id="bootstrap-table-remove" onclick="catalog_delete()" class="btn btn-danger">
+                          Delete</button>
+                        <button id="bootstrap-table-remove" onclick="exportSelectedData()" class="btn btn-danger"
+                          style="margin-left: 15px;">
+                          Export </button>
+                        <button id="bootstrap-table-remove" onclick="imports()" class="btn btn-danger imp"
+                          style="margin-left: 15px;">
+                          Import </button>
+                        <button id="bootstrap-table-remove" onclick="update()" class="btn btn-danger up"
+                          style="margin-left: 15px;">
+                          Update </button>
+                        <!-- <button id="bootstrap-table-remove"  class="btn btn-danger" style="margin-left: 15px;"><input type="file" id="fileInput" accept="image/*" onchange="importExcel()"style="position: absolute;visibility:hidden;">
+                            Import </button> -->
+                        <!-- <label for="file-upload" class="custom-file-upload btn btn-danger">
+                               Import
+                          </label> -->
+                        <form method="post" enctype="multipart/form-data">
+                          <div class="form-group import" style="display: none;padding-left: 15px;
+                          padding-top: 15px;
+                          margin-left: 35%;
+                          border: 1px solid;
+                          margin-right: 200px;">
+                            <input id="file-upload" type="file" name="excel-file">
+                            <button id="bootstrap-table-remove" onclick="importData(event)" class="btn btn-danger"
+                              style="margin-left: 15px;" accept="application/vnd.ms-excel">Import</button>
+                            <button id="bootstrap-table-remove" onclick="demo()" class="btn btn-danger"
+                              style="margin-left: 15px;" accept="application/vnd.ms-excel">Demo</button>
+                            <p id="msg" style="color: red"></p>
+                          </div>
+                          <div class="form-group update" style="display: none;padding-left: 15px;
+                          padding-top: 15px;
+                          margin-left: 35%;
+                          border: 1px solid;
+                          margin-right: 200px;">
+                            <input id="file-uploads" type="file" name="excel-file">
+                            <button id="bootstrap-table-remove" onclick="updateData(event)" class="btn btn-danger"
+                              style="margin-left: 22%;" accept="application/vnd.ms-excel">Update</button>
+                            <p id="up" style="color: red"></p>
+
+                          </div>
+                        </form>
+
+                        <!-- </div> -->
+
+                        <!-- <div class="card-datatable table-responsive"> -->
+                        <div class="card-body" style="overflow: scroll;">
+
+                          <table id="example" class="table table-striped" style="width:100%">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th></th>
+                                <th>Sr. No.</th>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Catalog Name</th>
+                                <th>PCS</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Subcategory</th>
+                                <th>Disable Date</th>
+                                <th>Dispatch Date</th>
+
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <% if (datas && datas.length) { %>
+                                <% for (let i=0; i < datas.length; i++) { %>
+                                  <tr>
+                                    <td><input type="checkbox" name="check" value="<%= datas[i].id %>"></td>
+                                    <td>
+                                      <a href="/admin/catalog_edit?id=<%= datas[i].id %>">
+                                        <button type="button" class="btn btn-info icon-btn borderless"
+                                          style="width: 100%;">
+                                          <span class="ion ion-md-create"></span>
+                                        </button>
+                                      </a>
+                                    </td>
+                                    <td>
+                                      <%= i + 1 %>
+                                    </td>
+                                    <td><img src="/public/imgs/catalog/<%= datas[i].image %>"
+                                        style="max-height: 50px;max-width: 50px;"></td>
+                                    <td>
+                                      <%= datas[i].title %>
+                                    </td>
+                                    <td>
+                                      <%= datas[i].cname %>
+                                    </td>
+                                    <td>
+                                      <%= datas[i].cpcs %>
+                                    </td>
+                                    <td>
+                                      <%= datas[i].cprice %>
+                                    </td>
+                                    <td>
+                                      <% if (datas[i].categories && datas[i].categories.length) { %>
+                                        <%= datas[i].categories.join(',') %>
+
+                                          <% } %>
+                                    </td>
+                                    <td>
+                                      <% if (datas[i].subcategories && datas[i].subcategories.length) { %>
+                                        <%= datas[i].subcategories.join(',') %>
+
+                                          <% } %>
+                                    </td>
+
+                                    <% const disableDate=new Date(datas[i].disable); const dispatchingDate=new
+                                      Date(datas[i].dispatching); const disableFormatted=datas[i].disable
+                                      !=='0000-00-00' ? disableDate.getFullYear() + '/' + ('0' +
+                                      (disableDate.getMonth()+1)).slice(-2) + '/' + ('0' +
+                                      disableDate.getDate()).slice(-2) : '0000/00/00' ; const
+                                      dispatchingFormatted=datas[i].dispatching !=='0000-00-00' ?
+                                      dispatchingDate.getFullYear() + '/' + ('0' +
+                                      (dispatchingDate.getMonth()+1)).slice(-2) + '/' + ('0' +
+                                      dispatchingDate.getDate()).slice(-2) : '0000/00/00' ; %>
+                                      <td>
+                                        <%= disableFormatted %>
+                                      </td>
+                                      <td>
+                                        <%= dispatchingFormatted %>
+                                      </td>
+
+
+
+                                  </tr>
+                                  <% } %>
+                                    <% } %>
+                            </tbody>
+
+                          </table>
+                          <!-- </div> -->
+                          <!-- </div> -->
+
+                        </div>
+                        <!-- [ content ] End -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- [ content ] End -->
+            <!-- [ Layout footer ] Start -->
+
+            <!-- [ Layout footer ] End -->
+        </div>
+        <!-- [ Layout content ] Start -->
+    </div>
+    <!-- [ Layout container ] End -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-sidenav-toggle"></div>
+  </div>
+  <!-- [ Layout wrapper] End -->
+  <style>
+    .custom-file-upload {
+      display: inline-block;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      margin-left: 15px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      height: 34px
+    }
+  </style>
+  <!-- Core scripts -->
+
+  <script src="/public/assets/js/pace.js"></script>
+  <script src="/public/assets/js/jquery-3.2.1.min.js"></script>
+  <script src="/public/assets/libs/popper/popper.js"></script>
+  <script src="/public/assets/js/bootstrap.js"></script>
+  <script src="/public/assets/js/sidenav.js"></script>
+  <script src="/public/assets/js/layout-helpers.js"></script>
+  <script src="/public/assets/js/material-ripple.js"></script>
+
+  <script src="/public/assets/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="/public/assets/libs/eve/eve.js"></script>
+  <script src="/public/assets/libs/flot/flot.js"></script>
+  <script src="/public/assets/libs/flot/curvedLines.js"></script>
+  <script src="/public/assets/libs/chart-am4/core.js"></script>
+  <script src="/public/assets/libs/chart-am4/charts.js"></script>
+  <script src="/public/assets/libs/chart-am4/animated.js"></script>
+  <script src="/public/assets/libs/raphael/raphael.js"></script>
+  <script src="/public/assets/libs/morris/morris.js"></script>
+  <script src="/public/assets/libs/moment/moment.js"></script>
+  <script src="/public/assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+  <script src="/public/assets/libs/datatables/datatables.js"></script>
+  <script src="/public/assets/libs/dropzone/dropzone.js"></script>
+  <script src="/public/assets/libs/bootstrap-select/bootstrap-select.js"></script>
+  <script src="/public/assets/libs/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+  <script src="/public/assets/libs/select2/select2.js"></script>
+  <script src="/public/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+  <script src="/public/assets/libs/growl/growl.js"></script>
+
+  <script src="/public/assets/js/demo.js"></script>
+  <script src="/public/assets/js/analytics.js"></script>
+  <script src="/public/assets/js/pages/forms_selects.js"></script>
+
+  <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#example').DataTable();
+    })
+  </script>
+  <script>
+    function catalog_delete() {
+      var delete_id = [];
+
+      $.each($("input[name='check']:checked"), function () {
+        delete_id.push($(this).val());
+      });
+      if (delete_id == "") {
+        alert("Please Select a Catalog to Delete");
+      } else {
+
+        if (confirm('Are You Sure You Want To Delete?')) {
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:3000/admin/catalog_delete?id=" + delete_id,
+            success: function (response) {
+              if (response == "success") {
+                location.reload();
+              }
+            }
+          });
+
+        }
+
+      }
+    }
+
+
+    function exportSelectedData() {
+      var table = document.getElementById("example");
+      var checkboxes = table.getElementsByTagName("input");
+      var selectedRows = [];
+
+      var id = [];
+      $.each($("input[name='check']:checked"), function () {
+        id.push($(this).val());
+      });
+      if (id == "") {
+        alert("Please Select a Catalog to Export");
+      }
+      else {
+        getDataFromDatabase(id, function (data) {
+          const formattedData = data.map(item => ({
+            ...item,
+            disable: new Date(item.disable).toLocaleDateString('en-US'),
+            dispatching: new Date(item.dispatching).toLocaleDateString('en-US')
+          }));
+          exportToExcel(formattedData);
+        });
+      }
+    }
+    function getDataFromDatabase(id, callback) {
+      $.ajax({
+        url: "http://localhost:3000/admin/get_data?id=" + id,
+        type: "POST",
+        data: { id: id },
+        success: function (data) {
+          callback(data);
+        },
+        error: function () {
+          alert("Error retrieving data from the database.");
+        }
+      });
+    }
+
+    function exportToExcel(data) {
+      var workbook = XLSX.utils.book_new();
+
+      var worksheet = XLSX.utils.json_to_sheet(data);
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Selected Data");
+
+      var filename = "selected-data.xlsx";
+      XLSX.writeFile(workbook, filename);
+      location.reload();
+    }
+  </script>
+
+  <script>
+    function imports() {
+      $(".import").show()
+      $(".imp").hide()
+    }
+    function update() {
+      $(".update").show()
+      $(".up").hide()
+    }
+  </script>
+
+
+  <script>
+    function file(event) {
+
+      const file = event.target.files[0];
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = reader.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const sheetData = XLSX.utils.sheet_to_csv(worksheet);
+        const rows = sheetData.split('\n');
+        const first = rows[0].split(',');
+
+        if (first[0] == 'id') {
+          document.getElementById('msg').innerHTML = 'Id is not valid feild please remove it';
+        } else {
+          let errorMsg = '';
+
+          for (let i = 1; i < rows.length - 1; i++) {
+            const data = rows[i].split(',');
+            let rowErrorMsg = '';
+
+            for (let j = 0; j < data.length; j++) {
+              if (data[j] === '' || data[j] === undefined) {
+                rowErrorMsg += `Empty field for ${first[j]}<br>`;
+              }
+            }
+
+            if (rowErrorMsg !== '') {
+              errorMsg += `Row ${i}: ${rowErrorMsg}<br>`;
+            }
+          }
+          if (errorMsg !== '') {
+            document.getElementById('msg').innerHTML = errorMsg;
+          } else {
+            document.getElementById('msg').innerHTML = '';
+          }
+
+        }
+      };
+      reader.readAsBinaryString(file);
+    }
+
+    function importData(event) {
+      event.preventDefault();
+
+      var file = $('#file-upload')[0].files[0];
+      if (!file) {
+        alert('Please select a file to import.');
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const data = reader.result;
+          const workbook = XLSX.read(data, { type: 'binary' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const sheetData = XLSX.utils.sheet_to_csv(worksheet);
+          const rows = sheetData.split('\n');
+          const first = rows[0].split(',');
+          if (first[0] == 'id') {
+            document.getElementById('msg').innerHTML = 'Id is not a valid field. Please remove it.';
+          } else {
+            let errorMsg = '';
+
+            for (let i = 1; i < rows.length - 1; i++) {
+              const data = rows[i].split(',');
+              let rowErrorMsg = '';
+
+              for (let j = 0; j < data.length; j++) {
+                if (data[j] === '' || data[j] === undefined) {
+                  rowErrorMsg += `Empty field for ${first[j]}<br>`;
+                }
+              }
+
+              if (rowErrorMsg !== '') {
+                errorMsg += `Row ${i}: ${rowErrorMsg}<br>`;
+              }
+            }
+
+            if (errorMsg !== '') {
+              document.getElementById('msg').innerHTML = errorMsg;
+            } else {
+              var formData = new FormData();
+              formData.append('file', file);
+              $.ajax({
+                url: 'http://localhost:3000/admin/import',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                  if (response == 'success') {
+                    location.reload()
+                  }
+                  else {
+                    document.getElementById('msg').innerHTML = response;
+                  }
+                },
+                error: function () {
+                  alert('Error importing data.');
+                }
+              });
+            }
+          }
+        };
+        reader.readAsBinaryString(file);
+      }
+      return false;
+    }
+
+    function updateData(event) {
+      event.preventDefault();
+      var file = $('#file-uploads')[0].files[0];
+      if (!file) {
+        alert('Please select a file to update.');
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const data = reader.result;
+          const workbook = XLSX.read(data, { type: 'binary' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const sheetData = XLSX.utils.sheet_to_csv(worksheet);
+          const rows = sheetData.split('\n');
+          const first = rows[0].split(',');
+          if (first[0] != 'id') {
+            document.getElementById('up').innerHTML = 'There is must id feild.';
+          } else {
+            let errorMsg = '';
+            for (let i = 1; i < rows.length - 1; i++) {
+              const data = rows[i].split(',');
+              let rowErrorMsg = '';
+              for (let j = 0; j < data.length - 1; j++) {
+                if (data[j] === '' || data[j] === undefined) {
+                  rowErrorMsg += `Empty field ${first[j]}<br>`;
+                }
+              }
+
+              if (rowErrorMsg !== '') {
+                errorMsg += `${rowErrorMsg} at Row ${i}<br>`;
+              }
+            }
+
+            if (errorMsg !== '') {
+              document.getElementById('up').innerHTML = errorMsg;
+            } else {
+              var formData = new FormData();
+              formData.append('file', file);
+              $.ajax({
+                url: 'http://localhost:3000/admin/update',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                  if (response == 'success') {
+                    location.reload()
+                  }
+                  else {
+                    document.getElementById('up').innerHTML = response;
+                  }
+                },
+                error: function () {
+                  alert('Error importing data.');
+                }
+              });
+            }
+          }
+        };
+        reader.readAsBinaryString(file);
+      }
+      return false;
+    };
+
+
+    function demo() {
+      event.preventDefault();
+      const data = [
+        {
+          product: 'Sold Out', product_check: 'Standard Stitching', image: '1682598775859-rk2.jpg', hsn: 22, title: 'Kurtis', cname: 'Kurti', fabric: 'printed kurti', cprice: 1500, cmrp: 2000, cpcs: 100, cgst: 5, cweight: 150, cstitch: 'Full Stitched', cqut: 100, length: 200, ctype: 'kurti', moq: 10, disable: '4/21/2023', dispatching: '4/21/2023', category: 'Kurti', subcategory: 'Cotton', subimage: '1682598775859-rk2.jpg,1682598775859-rk2.jpg'
+        }
+      ];
+
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(data); 10
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Selected Data");
+      const filename = "demo.xlsx";
+      XLSX.writeFile(workbook, filename);
+    }
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#blah').attr('src', e.target.result)
+        }
+        reader.readAsDataURL(input.files[0])
+      }
+    }
+  </script>
+</body>
+
+</html>

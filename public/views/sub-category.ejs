@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="en" class="default-style layout-fixed layout-navbar-fixed">
+
+<!-- Mirrored from html.phoenixcoded.net/empire/bootstrap/default/forms_selects.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Feb 2023 06:29:11 GMT -->
+
+<head>
+    <title>Empire | B4+ admin template</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+      user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Empire is one of the unique admin template
+      built on top of Bootstrap 4 framework. It is easy to customize, flexible
+      code styles, well tested, modern & responsive are the topmost key factors
+      of Empire Dashboard Template" />
+    <meta name="keywords" content="bootstrap admin template, dashboard template,
+      backend panel, bootstrap 4, backend template, dashboard template, saas
+      admin, CRM dashboard, eCommerce dashboard">
+    <meta name="author" content="Codedthemes" />
+    <link rel="icon" type="image/x-icon" href="/public/assets/img/favicon.ico">
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="/public/assets/fonts/fontawesome.css">
+    <link rel="stylesheet" href="/public/assets/fonts/ionicons.css">
+    <link rel="stylesheet" href="/public/assets/fonts/linearicons.css">
+    <link rel="stylesheet" href="/public/assets/fonts/open-iconic.css">
+    <link rel="stylesheet" href="/public/assets/fonts/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="/public/assets/fonts/feather.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="/public/assets/css/bootstrap-material.css">
+    <link rel="stylesheet" href="/public/assets/css/shreerang-material.css">
+    <link rel="stylesheet" href="/public/assets/css/uikit.css">
+
+    <!-- Libs -->
+    <link rel="stylesheet" href="/public/assets/libs/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="/public/assets/libs/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="/public/assets/libs/bootstrap-multiselect/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="/public/assets/libs/select2/select2.css">
+    <link rel="stylesheet" href="/public/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css">
+
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+
+</head>
+
+<body>
+
+    <div class="page-loader">
+        <div class="bg-primary"></div>
+    </div>
+
+    <div class="layout-wrapper layout-2">
+        <div class="layout-inner">
+            <div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-white logo-dark">
+
+                <%- include('sidenav'); %>
+            </div>
+            <div class="layout-container">
+
+                <%- include('nav'); %>
+                    <style>
+                        .select2-results__option--highlighted {
+                            background: rgba(24, 28, 33, 0.1);
+                        }
+                    </style>
+                    <div class="layout-content">
+                        <div class="container-fluid flex-grow-1 container-p-y">
+                            <h4 class="font-weight-bold py-3 mb-0">Add SubCategory</h4>
+                            <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <i class="feather icon-home"></i>
+                                    </li>
+                                    <li class="breadcrumb-item ">Subcategory</li>
+                                    <li class="breadcrumb-item active">Add/View SubCategory</li>
+                                </ol>
+                            </div>
+                            <form id="my_form" method="POST" enctype="multipart/form-data">
+
+                                <div class="row">
+                                        <div class="card mb-4" style="    display: inline-block;
+                                        margin: 2%;
+                                        width: 25%;
+                                        vertical-align: top;">
+                                            <h6 class="card-header">Add New SubCategory</h6>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label class="form-label">Select Category</label>
+                                                    <select class="select2-demo form-control" style="width: 100%"
+                                                        id="subcategory" name="subcategory">
+                                                        <option value="">Select Subategory</option>
+                                                        <% datas.forEach(function(datas) { %>
+                                                            <option value="<%= datas.id %>">
+                                                                <%= datas.cname %>
+                                                            </option>
+
+
+                                                            <% })%>
+                                                    </select>
+
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label">Select Image</label>
+                                                    <input type="file" name="sub_image" accept="image/*"
+                                                        class="form-control" onchange="readURL(this);" id="image">
+                                                    <img id="blah" src="https://via.placeholder.com/150"
+                                                        style="max-width:100px;max-height:100px;margin: auto;padding: 3px;border: 3px solid #73AD21;padding: 8px;">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label">Subcategory Name</label>
+                                                    <input type="text" class="form-control" id="cat_name" name="scname">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label">Slug Subcategory</label>
+                                                    <input type="text" class="form-control" id="slug" name="slug">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label">Meta Title</label>
+                                                    <input type="text" class="form-control" id="smtitle" name="smtitle">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label">Meta Keyword</label>
+                                                    <input type="text" class="form-control" id="smkeyword"
+                                                        name="smkeyword">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label class="form-label">Meta Descryption</label>
+                                                    <input type="text" class="form-control" id="smdescryption"
+                                                        name="smdescryption">
+                                                </div>
+                                                <input type="button" onclick="submit_product()" class="btn btn-primary"
+                                                    style="float:right;margin:15px;" value="Submit">
+                                            </div>
+                                        </div>
+                                        <div class="card mb-4" style="display:inline-block;margin:26px;width:65%">
+                                            <div class="card-body">
+                                                <!-- <div class="card col-md-2" id="bootstrap-table-toolbar"> -->
+                                                <button id="bootstrap-table-remove" onclick="delete_subcategory()"
+                                                    class="btn btn-danger" style="margin-bottom: 30px">
+                                                    Delete</button>
+                                                <!-- </div> -->
+
+
+                                                <div class="card-datatable table-responsive">
+
+                                                    <table id="example" class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th></th>
+                                                                <th>Sr. No.</th>
+                                                                <th>Image</th>
+                                                                <th>Subategory Name</th>
+                                                                <th>Category Name</th>
+
+                                                                <th>Meta Title</th>
+                                                                <th>Meta Keyword</th>
+                                                                <th>Meta Descryption</th>
+                                                            </tr>
+                                                        </thead>
+
+
+                                                        <tbody>
+                                                            <%var count=1%>
+
+                                                                <% data.forEach(function(data) { %>
+                                                                    <tr>
+                                                                        <td><input type="checkbox" name="check"
+                                                                                value="<%= data.id %>"></td>
+                                                                        <td><a
+                                                                                href="/admin/subcategory_edit?id=<%= data.id %>"><button
+                                                                                    type="button"
+                                                                                    class="btn btn-info icon-btn borderless"
+                                                                                    style="width: 150%;"><span
+                                                                                        class="ion ion-md-create"></span></button></a>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <%= count%>
+                                                                                <% count++ %>
+
+
+
+
+                                                                        </td>
+
+                                                                        <td><img src="/public/imgs/subcategory/<%= data.image%>"
+                                                                                style="width:100%"></td>
+                                                                        <td>
+                                                                            <%= data.scname%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= data.subcategory%>
+                                                                        </td>
+
+
+                                                                        <td>
+                                                                            <%= data.smtitle%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= data.smkeyword%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= data.smdescryption%>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% }) %>
+                                                        </tbody>
+
+
+
+
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <script src="/public/assets/js/pace.js"></script>
+        <script src="/public/assets/js/jquery-3.2.1.min.js"></script>
+        <script src="/public/assets/libs/popper/popper.js"></script>
+        <script src="/public/assets/js/bootstrap.js"></script>
+        <script src="/public/assets/js/sidenav.js"></script>
+        <script src="/public/assets/js/layout-helpers.js"></script>
+        <script src="/public/assets/js/material-ripple.js"></script>
+
+        <script src="/public/assets/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="/public/assets/libs/eve/eve.js"></script>
+        <script src="/public/assets/libs/flot/flot.js"></script>
+        <script src="/public/assets/libs/flot/curvedLines.js"></script>
+        <script src="/public/assets/libs/chart-am4/core.js"></script>
+        <script src="/public/assets/libs/chart-am4/charts.js"></script>
+        <script src="/public/assets/libs/chart-am4/animated.js"></script>
+        <script src="/public/assets/libs/raphael/raphael.js"></script>
+        <script src="/public/assets/libs/morris/morris.js"></script>
+        <script src="/public/assets/libs/moment/moment.js"></script>
+        <script src="/public/assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+        <script src="/public/assets/libs/datatables/datatables.js"></script>
+        <script src="/public/assets/libs/dropzone/dropzone.js"></script>
+        <script src="/public/assets/libs/bootstrap-select/bootstrap-select.js"></script>
+        <script src="/public/assets/libs/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+        <script src="/public/assets/libs/select2/select2.js"></script>
+        <script src="/public/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+        <script src="/public/assets/libs/growl/growl.js"></script>
+
+        <script src="/public/assets/js/demo.js"></script>
+        <script src="/public/assets/js/analytics.js"></script>
+        <script src="/public/assets/js/pages/forms_selects.js"></script>
+        <script type="text/javascript"
+            src="https://cdn.datatables.net/buttons/1.4.0/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.print.min.js"></script>
+        <link rel="stylesheet" type="text/css"
+            href="https://cdn.datatables.net/buttons/1.4.0/css/buttons.dataTables.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script type="text/javascript"
+            src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
+
+        <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+        <script>
+            const cat_name = document.getElementById("cat_name");
+            const slug = document.getElementById("slug");
+
+            cat_name.addEventListener("input", () => {
+                const cat = cat_name.value
+                slug.value = slugify(cat);
+            })
+            const slugify = (str) => {
+                return str.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
+            };
+
+        </script>
+        <script>
+
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
+        </script>
+        <script>
+            function delete_subcategory() {
+                var delete_id = [];
+                $.each($("input[name='check']:checked"), function () {
+                    delete_id.push($(this).val());
+                });
+                //alert("Id to Delete are: " + delete_id.join(", "));
+                if (delete_id == "") {
+                    alert("Please Select a Subcategory to Delete");
+                } else {
+
+                    if (confirm('Are You Sure You Want To Delete?')) {
+                        $.ajax({
+                            type: "POST",
+                            url: "subcategory_delete?id=" + delete_id,
+                            success: function (response) {
+                                if (response == "error") {
+                                    alert("You cannot delete subcategory as it is linked with catalog!");
+                                } else if (response == "success") {
+                                    console.log('ok');
+                                    location.reload();
+                                }
+                            }
+                        });
+                    }
+
+                }
+            }
+
+        </script>
+        <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#blah').attr('src', e.target.result)
+                    }
+                    reader.readAsDataURL(input.files[0])
+                }
+            }
+        </script>
+        <script>
+            function submit_product() {
+                var category = document.getElementById('subcategory').value
+                if (cat_name == undefined || category == '') {
+                    alert('Please Select Subcategory')
+                }
+                else {
+                    var imagefile = $('#image').prop('files')[0];
+                    if (imagefile == undefined) {
+                        alert('Please Select Image')
+                    }
+                    else {
+                        var cname = document.getElementById('cat_name').value
+                        if (cname == '') {
+                            alert('Please Enter Subcategoryname')
+
+                        }
+                        else {
+                            var foundMatch = false;
+                            '<% data.forEach(function(data) { %>'
+                            if (cname == '<%= data.scname %>') {
+                                alert('Subcategoryname Already Exists');
+                                foundMatch = true;
+                            }
+                            '<% })%>'
+                            if (!foundMatch) {
+                                var form = document.getElementById('my_form');
+                                form.submit();
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+
+            }
+        </script>
+</body>
+
+</html>

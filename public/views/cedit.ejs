@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+
+<html lang="en" class="default-style layout-fixed layout-navbar-fixed">
+
+<!-- Mirrored from html.phoenixcoded.net/empire/bootstrap/default/forms_selects.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Feb 2023 06:29:11 GMT -->
+
+<head>
+  <title>Empire | B4+ admin template</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,
+      user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="Empire is one of the unique admin template
+      built on top of Bootstrap 4 framework. It is easy to customize, flexible
+      code styles, well tested, modern & responsive are the topmost key factors
+      of Empire Dashboard Template" />
+  <meta name="keywords" content="bootstrap admin template, dashboard template,
+      backend panel, bootstrap 4, backend template, dashboard template, saas
+      admin, CRM dashboard, eCommerce dashboard">
+  <meta name="author" content="Codedthemes" />
+  <link rel="icon" type="image/x-icon" href="/public/assets/img/favicon.ico">
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+  <!-- Icon fonts -->
+  <link rel="stylesheet" href="/public/assets/fonts/fontawesome.css">
+  <link rel="stylesheet" href="/public/assets/fonts/ionicons.css">
+  <link rel="stylesheet" href="/public/assets/fonts/linearicons.css">
+  <link rel="stylesheet" href="/public/assets/fonts/open-iconic.css">
+  <link rel="stylesheet" href="/public/assets/fonts/pe-icon-7-stroke.css">
+  <link rel="stylesheet" href="/public/assets/fonts/feather.css">
+
+  <!-- Core stylesheets -->
+  <link rel="stylesheet" href="/public/assets/css/bootstrap-material.css">
+  <link rel="stylesheet" href="/public/assets/css/shreerang-material.css">
+  <link rel="stylesheet" href="/public/assets/css/uikit.css">
+
+  <!-- Libs -->
+  <link rel="stylesheet" href="/public/assets/libs/perfect-scrollbar/perfect-scrollbar.css">
+  <link rel="stylesheet" href="/public/assets/libs/bootstrap-select/bootstrap-select.css">
+  <link rel="stylesheet" href="/public/assets/libs/bootstrap-multiselect/bootstrap-multiselect.css">
+  <link rel="stylesheet" href="/public/assets/libs/select2/select2.css">
+  <link rel="stylesheet" href="/public/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css">
+  <!-- <style> .form-group p { text-align: center; margin: 20px 0 30px; } .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable { color: black; } img { max-height: 100px; max-width: 100px; margin: 5px; cursor: pointer; vertical-align: middle; position: relative; } </style> -->
+</head>
+
+<body>
+
+  <div class="page-loader">
+    <div class="bg-primary"></div>
+  </div>
+
+  <div class="layout-wrapper layout-2">
+    <div class="layout-inner">
+      <div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-white logo-dark">
+
+        <%- include('sidenav'); %>
+      </div>
+      <div class="layout-container">
+
+        <%- include('nav'); %>
+          <style>
+            .select2-results__option--highlighted {
+              background: rgba(24, 28, 33, 0.1);
+            }
+          </style>
+          <div class="layout-content">
+            <div class="container-fluid flex-grow-1 container-p-y">
+              <h4 class="font-weight-bold py-3 mb-0">Edit Catalog</h4>
+              <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <i class="feather icon-home"></i>
+                  </li>
+                  <li class="breadcrumb-item ">Catalog</li>
+                  <li class="breadcrumb-item active">Edit Catalog</li>
+                </ol>
+              </div>
+              <form id="my_form" method="POST" enctype="multipart/form-data">
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card mb-4">
+                      <h6 class="card-header">Edit Catalog</h6>
+                      <div class="card-body">
+                        <div class="form-group">
+                          <label class="form-label">Select Categories</label>
+                          <select class="select2-demo form-control" multiple="multiple" style="width: 100%"
+                            id="selected_cat" name="selected_cat[]" onchange="get_subcat1()" autofocus="autofocus">
+                            <% data1.forEach(function(data1) { %>
+                              <option value="<%= data1.id %>" <% if (cat_id.includes(data1.id)) { %>selected<% } %> >
+                                  <%= data1.cname %>
+                              </option>
+                              <% })%>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">Select Subcategories</label>
+                          <select class="select2-demo form-control" multiple="multiple" style="width: 100%"
+                            id="get_subcat" name="selected_subcat[]">
+                            <% data2.forEach(function(data2) { %>
+                              <%= data2.scname %>
+                                <option value="<%= data2.id %>" <% if (subcat_id.includes(data2.id)) { %>selected<% } %>
+                                    >
+                                    <%= data2.scname %>
+                                </option>
+                                <% })%>
+                          </select>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="products" class="row">
+                  <div class="col-md-6">
+                    <div class="card mb-4">
+                      <h6 class="card-header">Catalog 1</h6>
+                      <div class="card-body">
+                        <% data.forEach(function(data) { %>
+                          <label class="form-group col-md-4">
+                            <input type="radio" name="product_type1" value="Sale" <% if (data.product==='Sale' ) {
+                              %>checked<% } %>>
+                              Sale
+                          </label>
+                          <label class="form-group col-md-4">
+                            <input type="radio" name="product_type1" value="Upcoming" <% if (data.product==='Upcoming' )
+                              { %>checked<% } %>>
+                              Upcoming
+                          </label>
+                          <label class="form-group col-md-4">
+                            <input type="radio" name="product_type1" value="Sold Out" <% if (data.product==='Sold Out' )
+                              { %>checked<% } %>>
+                              Sold Out
+                          </label>
+                          <label class="form-group col-md-4">
+                            <input type="radio" name="product_type1" value="Ready to Ship" <% if
+                              (data.product==='Ready to Ship' ) { %>checked<% } %>>
+                              Ready to Ship
+                          </label>
+                          <div class="form-group col-md-12">
+                            <label class="form-label col-md-12">
+                              <input type="checkbox" id="upcoming_checkbox2" name="upcoming_checkbox[]" value="Featured"
+                                <% if (data.product_check==='Featured' ) { %>checked<% } %>>
+                                Featured
+                            </label>
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label class="form-label col-md-12">
+                              <input type="checkbox" id="upcoming_checkbox1" name="upcoming_checkbox[]"
+                                value="Standard Stitching" <% if (data.product_check==='Standard Stitching' ) {
+                                %>checked<% } %>>
+                                Standard Stitching
+                            </label>
+                          </div>
+
+                          <div class="form-group col-md-12">
+                            <label class="form-label">Select Image</label>
+                            <input type="file" name="image_file[]" accept="image/*" class="form-control"
+                              onchange="readURL(this,1);" id="image_file1">
+                            <img id="blah1" src="/public/imgs/catalog/<%= data.image%>"
+                              style="max-width:150px;max-height:150px;margin: auto;padding: 10px;border: 3px solid #73AD21">
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label class="form-label col-md-12">Select Sub-Images</label>
+                            <% var count_rows=subimage.length; %>
+                              <% var count_rows=count_rows+1 %>
+
+                                <input type="file" name="subimage_file1[]" accept="image/*,video/*" class="form-control"
+                                  multiple="multiple" onchange="get_subimages(this,1);" id="subimage_file1">
+                                <div class="gallery1">
+                                  <script type="text/javascript">
+                                    var imageArray = [];
+                                  </script>
+
+                                  <% var i=0; %>
+                                    <% subimage.forEach(function(sub){ %>
+                                      <% var subimage=sub %>
+                                        <% i++; %>
+                                          <% var id_one="1_img" + i; %>
+                                            <span id="<%= id_one %>" style="position: relative;">
+                                              <img id="blah" src="/public/imgs/subimage/<%= subimage %>"
+                                                style="max-width:100px;max-height:100px;margin: 5px;cursor: pointer;">
+                                              <span class="remove_img_preview"
+                                                onclick="remove_image('<%= id_one %>',1,'<%= count_rows %>','/public/imgs/subimage/<%= subimage %>')"></span>
+                                            </span>
+                                            <script>
+                                              var f = new File([""], "/public/imgs/subimage/<%= subimage %>", {
+                                                type: "image/jpeg",
+                                                lastModified: Date.now()
+                                              });
+                                              var fileInput = document.querySelector("#subimage_file1");
+                                              var a = Array.from(fileInput.files);
+
+                                              a.push(f);
+                                              imageArray = a;
+                                              a = [].slice.call(Array.isArray(a) ? a : arguments);
+                                              for (var c, b = c = a.length, d = !0; b-- && d;) {
+                                                d = a[b] instanceof File;
+                                              }
+                                              if (!d) {
+                                                throw new TypeError("expected argument to FileList is File or array of File objects");
+                                              }
+                                              for (b = (new ClipboardEvent("")).clipboardData || new DataTransfer; c--;) {
+                                                b.items.add(a[c]);
+                                              }
+                                              document.querySelector("#subimage_file1").files = b.files;
+                                            </script>
+                                            <% }); %>
+                                </div>
+
+
+
+
+
+
+                          </div>
+
+                          <div class="form-group col-md-12">
+                            <label class="form-label w-100">HSN Code</label>
+                            <input type="number" class="form-control" id="hsn" name="hsn" value="<%= data.hsn %>">
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" value="<%= data.title %>">
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label class="form-label">CName</label>
+                            <input type="text" class="form-control" id="cname" name="cname" value="<%= data.cname %>">
+                          </div>
+
+                          <div class="form-group col-md-12">
+                            <label class="form-label">Select Fabric</label>
+                            <select class="select2-demo form-control" style="width: 100%" id="fabric" name="fabric[]">
+                              <option value="">Select Fabric</option>
+                              <% data4.forEach(function(data4) { %>
+                                <option value="<%= data4.fabric %>" <% if (data4.fabric===data.fabric) { %>selected<% }
+                                    %>>
+                                    <%= data4.fabric %>
+                                </option>
+                                <% }); %>
+                            </select>
+                          </div>
+                          <div class="form-group col-md-6" style="float:left;">
+                            <label class="form-label">Catalog Price Per Pc</label>
+                            <input type="number" class="form-control" id="cprice" name="cprice[]"
+                              value="<%= data.cprice %>">
+                          </div>
+                          <div class="form-group col-md-6" style="float:right;">
+                            <label class="form-label">
+                              Catalog MRP Price Per Pc</label>
+                            <input type="number" class="form-control" id="mrp" name="cmrp[]" value="<%= data.cmrp %>">
+                          </div>
+
+                          <div class="form-group col-md-6" style="float:left;">
+                            <label class="form-label">Catalog PCS</label>
+                            <input type="number" class="form-control" id="cpcs" name="cpcs[]" value="<%= data.cpcs %>">
+                          </div>
+                          <div class="form-group col-md-6" style="float:right;">
+                            <label class="form-label">Catalog GST</label>
+                            <input type="number" class="form-control" id="gst" name="cgst[]" value="<%= data.cgst %>">
+                          </div>
+                          <div class="form-group col-md-6" style="float:left;">
+                            <label class="form-label">Catalog Weight (kg)</label>
+                            <input type="number" class="form-control" id="cweight" name="cweight[]"
+                              value="<%= data.cweight %>">
+                          </div>
+                          <div class="form-group col-md-6" style="float:right;">
+                            <label class="form-label">Stitch</label>
+                            <select class="form-control" id="cstitch" name="cstitch[]">
+                              <option value="" selected="selected" disabled="disabled">
+                                Select Stitch</option>
+                              <option value="Unstitched" <% if (data.cstitch==='Unstitched' ) { %>selected<% } %>
+                                  >Unstitched</option>
+                              <option value="Semi Stitched" <% if (data.cstitch==='Semi Stitched' ) { %>selected<% } %>
+                                  >Semi Stitched</option>
+                              <option value="Full Stitched" <% if (data.cstitch==='Full Stitched' ) { %>selected<% } %>
+                                  >Full Stitched</option>
+                            </select>
+                          </div>
+                          <div class="form-group ">
+                            <div class="form-group color_btn1">
+                              <button type="button" class="btn btn-info" onclick="add_color(1)"
+                                style="border-radius: 25px;background: black;margin-bottom: 20px;margin-left: 8px;">Add
+                                Color</button>
+                              <script>
+                                var imageArray1 = [];
+                              </script>
+                              <% var num_color=1;%>
+                                <% for(var i=0; i<content.length; i++) { %>
+                                  <div id="colors1_<%= num_color%>" class="colorss">
+                                    <input type="hidden" value="<%= content[i].color%>" name="old_color_id_array1[]">
+                                    <div class="row col-md-12" style="border: 0.5px solid;margin-top: 20px;">
+                                      <div class="form-group col-md-4">
+                                   
+                                        <label class="form-label">Select Color</label>
+                                        <select class="select2-demo form-control color_dis" id="selected_color1_<%= num_color%>"
+                                          name="selected_color">
+                                          <option value="" selected="selected" disabled="disabled">Select Color</option>
+                                          <% data12.forEach(function(data12) { %>
+                                            <option value="<%= data12.saname%>" <% if (data12.saname===content[i].color) { %>selected<% } %> > <%= data12.saname%> </option>
+                                            
+                                            <% }); %>
+                                        </select>
+                                      </div>
+                                      <div class="form-group col-md-5">
+                                        <label class="form-label">Select Image</label>
+                                        <input type="file" name="image_file_color1[]" accept="image/*"
+                                          class="form-control batch" onchange="readURL1(this,'<%= num_color%>');"
+                                          id="image_file_color<%= num_color%>">
+                                        <% if (content[i]) { %>
+                                          <img id="color_blah<%= num_color%>"
+                                            src="/public/imgs/attr_images/<%= content[i].image%>"
+                                            style="max-width:150px;max-height:150px;margin: auto;padding: 10px;border: 3px solid #73AD21">
+                                          <% } %>
+                                      </div>
+
+                                      <div class="form-group col-md-12">
+                                        <label class="form-label col-md-12">Select Sub-Images</label>
+
+                                        <input type="file" name="subimage_file_color1_<%= num_color%>[]"
+                                          accept="image/*,video/*" class="form-control batch11" multiple
+                                          onchange="get_subimages2(this,'1','<%= num_color%>');"
+                                          id="subimage_file_color1_<%= num_color%>">
+                                        <div class="gallery1_<%= num_color%> gallery_color1">
+                                          <script type="text/javascript">
+                                            imageArray1['<%= num_color%>'] = [];
+                                          </script>
+
+                                          <% var j=0; %>
+                                            <% for (var key in content[i].subimages) { %>
+                                              <% var sub=content[i].subimages[key]%>
+                                                <% var newname_img=sub.replace(".", "_" ); %>
+                                                  <% j++ %>
+                                                    <% var id_one="1_img" + j +num_color%>
+                                                      <span id="<%= id_one%>" class="<%= newname_img%>"><img id="blah"
+                                                          src="/public/imgs/attr_subimages/<%= sub %>"
+                                                          style="max-width:100px;max-height:100px;margin: auto;padding: 10px;"><span
+                                                          class="remove_img_preview"
+                                                          onclick="remove_image2('<%= id_one%>','<%= num_color%>','<%= j%>','1','/public/imgs/attr_subimages/<%= sub %>')"></span></span>
+                                                      <script type="text/javascript">
+                                                        var f = new File([""], "/public/imgs/attr_subimages/<%= sub %>", {
+                                                          type: "image/jpeg",
+                                                          lastModified: Date.now()
+                                                        })
+                                                        var fileInput = document.querySelector("#subimage_file_color1_<%= num_color%>");
+                                                        var a = Array.from(fileInput.files);
+
+                                                        a.push(f);
+
+                                                        a = [].slice.call(Array.isArray(a) ? a : arguments)
+
+                                                        imageArray1['<%= num_color%>'] = a;
+
+                                                        for (var c, b = c = a.length, d = !0; b-- && d;) d = a[
+                                                          b] instanceof File
+                                                        if (!d) throw new TypeError(
+                                                          "expected argument to FileList is File or array of File objects"
+                                                        )
+                                                        for (b = (new ClipboardEvent("")).clipboardData ||
+                                                          new DataTransfer; c--;) b.items.add(a[c]);
+                                                        document.querySelector("#subimage_file_color1_<%= num_color%>").files = b.files;
+                                                      </script>
+
+                                                      <% } %>
+
+                                        </div>
+                                      </div>
+
+                                      <button style="margin: 8px;border-radius: 25px;background: green;" type="button"
+                                        class="btn btn-info" onclick="add_color(1)"><i class="fa fa-plus"
+                                          aria-hidden="true"></i></button>
+                                      <button type="button"
+                                        style="background:red; margin-left: 77%; margin-bottom: 8px;margin-top: 8px;border-radius: 25px;color:white"
+                                        class="btn btn-round btn-default" onclick="remove_color(1,`<%= num_color%>`)"><i
+                                          class="fa fa-minus" aria-hidden="true"></i></button>
+
+                                    </div>
+                                    <input type="hidden" value="<%= num_color%>" id="total_color_array1"
+                                      name="total_color_array1[]">
+                                  </div>
+
+                                  <% num_color++%>
+                                    <% } %>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="form-group col-md-12">
+                              <label class="form-label col-md-12"></label>
+                              <button type="button" class="btn btn-info"
+                                style="margin: 8px;border-radius: 25px;background: black;" id="btn"
+                                onclick="add_attribute(1)">
+                                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Add Atrributes</button>
+                            </div>
+                          </div>
+                          <div id="show_attribute1">
+                            <% var num_att=1 %>
+                              <% data6.forEach(function(data6) { %>
+
+
+
+                                <div class="attributediv" id="attribute1_<%= num_att %>">
+                                  <div class="row" style="border: 0.5px solid;margin:20px">
+                                    <div class="form-group col-md-1">
+                                      <label class="form-label col-md-12"></label>
+                                      <button type="button" class="btn btn-info"
+                                        style="margin: 8px;border-radius: 25px;background: green;" id="btn"
+                                        onclick="add_attribute(1)"><i class="fa fa-plus"
+                                          aria-hidden="true"></i></button>
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <div class="form-group col-md-4">
+                                      <label class="form-label col-md-12"> Select Attribute </label>
+
+                                      <select id="product_attributea1_<%= num_att%>"
+                                        name="product_attributea1[<%= num_att%>][]"
+                                        class="select2-demo form-control abc"
+                                        onchange="myfun(this.value,1,'<%= num_att%>')"
+                                        data-placeholder="Choose Sub Category" value="<%= data6.aname %>">
+
+                                        <option value="<%= data6.aname %>" <% if (attr_name.includes(data6.aname)) { %>
+                                          selected<% } %>>
+                                            <%= data6.aname %>
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label class="form-label col-md-12" data-toggle="modal" data-target="#myModal"
+                                        id="atimepicker" data-value="11:45AM" style="display:flex;"> Select Sub
+                                        Attribute <i class="fa fa-plus" aria-hidden="true"
+                                          style="cursor:pointer;margin-left:5px" id="click1_<%= num_att%>"
+                                          onclick="show(1,'<%= num_att%>')"></i></label>
+                                      <div id="element1_<%= num_att%>" style="display:none;margin:5px">
+                                        <input type="text" id="text1_<%= num_att%>" style="display: inline-block;">
+
+                                        <input type="button" id="btn" style="display: inline-block;"
+                                          onclick="add(1,'<%= num_att%>')" value="ADD">
+
+                                      </div>
+                                      <select id="product_subattribute1_<%= num_att%>"
+                                        name="product_subattribute1[<%= num_att%>][]"
+                                        class="select2-demo form-control abc1" multiple="multiple">
+
+                                        <<% subattribute.forEach(function(subattribute) { %>
+                                          <option value="<%= subattribute.saname %>" <% if
+                                            (a.includes(subattribute.saname)) { %>selected<% } %>>
+                                              <%= subattribute.saname %>
+                                          </option>
+                                          <% }); %>
+                                      </select>
+                                      <div id="ad1_<%= num_att%>">
+
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group col-md-1">
+                                      <label class="form-label col-md-12"></label>
+                                      <button style="margin: 6px;background: red;border-radius: 25px;" type="button"
+                                        class="btn btn-info" onclick="remove_attribute(1,'<%= num_att%>')"
+                                        id="btnn1_<%= num_att%>"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                <% num_att++%>
+                                  <% }); %>
+
+                          </div>
+
+                          <div class="form-group col-md-12">
+                            <label class="form-label">Catalog Quantity(Stock)
+                            </label>
+                            <input type="number" class="form-control" id="qut" name="cqut" value="<%= data.cqut %>">
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label class="form-label">Length</label>
+                            <input type="number" class="form-control" id="length" name="length"
+                              value="<%= data.length %>">
+                          </div>
+                          <div class="form-group col-md-6" style="float: left;">
+                            <label class="form-label">Catalog type(Set)</label>
+                            <input type="text" class="form-control" id="ctype" name="ctype" value="<%= data.ctype %>">
+                          </div>
+                          <div class="form-group col-md-6" style="float: right;">
+                            <label class="form-label">MOQ</label>
+                            <input type="number" class="form-control" id="moq" name="moq" value="<%= data.moq %>">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label col-md-12">Disable Date</label>
+                            <input type="date" class="form-control" id="disable" name="disable[]"
+                              value="<%= data.disable.toISOString().substr(0, 10) %>">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label col-md-12">Dispatching Date</label>
+                            <input type="date" class="form-control" id="dispatching" name="dispatching[]"
+                              value="<%= data.dispatching.toISOString().substr(0, 10) %>">
+                          </div>
+
+                          <input type="hidden" value="2" id="total" name="total">
+                          <input type="hidden" value="<%= num_color%>" id="total_color1" name="total_color1">
+                          <input type="hidden" value="<%= num_att%>" id="total_attribute1" name="total_attribute1">
+                          <small class="form-text text-muted" id="error1"
+                            style="display:none;margin-bottom:15px; color:red !important;"></small>
+                          <% })%>
+                            <input type="button" onclick="submit_product(1,1)" class="btn btn-primary"
+                              style="float:right;" value="Update">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <script src="/public/assets/js/pace.js"></script>
+    <script src="/public/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="/public/assets/libs/popper/popper.js"></script>
+    <script src="/public/assets/js/bootstrap.js"></script>
+    <script src="/public/assets/js/sidenav.js"></script>
+    <script src="/public/assets/js/layout-helpers.js"></script>
+    <script src="/public/assets/js/material-ripple.js"></script>
+
+    <script src="/public/assets/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/public/assets/libs/eve/eve.js"></script>
+    <script src="/public/assets/libs/flot/flot.js"></script>
+    <script src="/public/assets/libs/flot/curvedLines.js"></script>
+    <script src="/public/assets/libs/chart-am4/core.js"></script>
+    <script src="/public/assets/libs/chart-am4/charts.js"></script>
+    <script src="/public/assets/libs/chart-am4/animated.js"></script>
+    <script src="/public/assets/libs/raphael/raphael.js"></script>
+    <script src="/public/assets/libs/morris/morris.js"></script>
+    <script src="/public/assets/libs/moment/moment.js"></script>
+    <script src="/public/assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+    <script src="/public/assets/libs/datatables/datatables.js"></script>
+    <script src="/public/assets/libs/dropzone/dropzone.js"></script>
+    <script src="/public/assets/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="/public/assets/libs/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+    <script src="/public/assets/libs/select2/select2.js"></script>
+    <script src="/public/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+    <script src="/public/assets/libs/growl/growl.js"></script>
+
+    <script src="/public/assets/js/demo.js"></script>
+    <script src="/public/assets/js/analytics.js"></script>
+    <script src="/public/assets/js/pages/forms_selects.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.0/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/buttons/1.4.0/css/buttons.dataTables.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
+
+    <style>
+      .gallery1 {
+        display: grid;
+        grid-template-columns: auto auto auto;
+      }
+
+      .gallery_color1 {
+        display: grid;
+        grid-template-columns: auto auto auto;
+      }
+
+      element.style {
+        max-height: 100px;
+        max-width: 100px;
+        margin: 5px;
+        cursor: pointer;
+      }
+
+      img {
+        vertical-align: middle;
+        border-style: none;
+        max-height: 120px;
+        max-width: 120px
+      }
+
+      .remove_img_preview {
+        position: relative;
+        top: -45px;
+        right: -5px;
+        background: black;
+        color: white;
+        border-radius: 50px;
+        font-size: 0.9em;
+        padding: 0 0.3em;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .remove_img_preview:before {
+        content: "×";
+      }
+    </style>
+    <script>
+      function add_attribute(i) {
+        var k = $("#total_attribute" + i).val();
+        var append_attribute = `
+                      <div class="attributediv" id="attribute${i}_${k}">
+                            <div class="row" style="border: 0.5px solid;margin:20px">
+                                    <div class="form-group col-md-1">
+                                    <label class="form-label col-md-12"></label>
+                                    <button type="button" class="btn btn-info" style="margin: 8px;border-radius: 25px;background: green;" id="btn" onclick="add_attribute(1)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <div class="form-group col-md-4">
+                                    <label class="form-label col-md-12"> Select Attribute </label>
+
+                                    <select id="product_attributea${i}_${k}" name="product_attributea${i}[${k}][]" class="select2-demo form-control abc batchNo" onchange="myfun(${i},${k})" data-placeholder="Choose Sub Category">
+                                        <option value="" disabled selected>Choose Attribute</option>         
+                                        <% data6.forEach(function(data6) { %>
+                                                        <option value="<%= data6.aname %>" >
+                                                          <%= data6.aname %>
+                                                        </option>
+                                                      <% }); %> 
+                                     </select>
+
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                    <label class="form-label col-md-12" data-toggle="modal" data-target="#myModal" id="atimepicker" data-value="11:45AM" style="display:flex;"> Select Sub Attribute <i class="fa fa-plus"
+                                aria-hidden="true" style="cursor:pointer;margin-left:5px" id="click${i}_${k}"
+                                onclick="show(${i},${k})"></i></label>
+                                <div id="element${i}_${k}" style="display:none;margin:5px">
+                            <input type="text" id="text${i}_${k}" style="display: inline-block;">
+
+                                <input type="button" id="btn" style="display: inline-block;" onclick="add(${i},${k})" value="ADD">
+
+                                  </div>
+                                    <select id="product_subattribute${i}_${k}" name="product_subattribute${i}[${k}][]" class="select2-demo form-control abc1 batchNo11" multiple="multiple">                                                                             
+									                  </select>
+                                   <div id="ad${i}_${k}" >
+                            
+                                    </div>
+                                    </div>
+
+                                    <div class="form-group col-md-1">
+                                    <label class="form-label col-md-12"></label>
+                                    <button style="margin: 6px;background: red;border-radius: 25px;" type="button" class="btn btn-info" onclick="remove_attribute(${i},${k})" id="btnn${i}_${k}"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>`;
+        $("#show_attribute" + i).append(append_attribute);
+        k++;
+        $("#total_attribute" + i).val(k);
+        chnagedrop();
+      }
+
+      function chnagedrop() {
+        $(".abc option").removeAttr('disabled');
+        $(".abc :selected").each(function () {
+          var selectedValue = $(this).val();
+          $(".abc option[value='" + selectedValue + "']").prop('disabled', true);
+        });
+        $(".select2-demo").select2();
+      }
+      $(document).on('change', '.abc', function () {
+        chnagedrop()
+      })
+
+      function remove_attribute(i, k) {
+        var j = $("#total_attribute" + i).val();
+        var remove = parseInt(j) - 1;
+
+        $("#attribute" + i + "_" + k).remove();
+        if (k == remove) {
+          $("#total_attribute" + i).val(remove);
+        }
+        if (!jQuery("div").hasClass("attributediv")) {
+          $("#total_attribute" + i).val(2);
+        }
+        chnagedrop();
+      }
+    </script>
+    <script>
+      function get_subcat1() {
+        var cat_id = $("#selected_cat").val();
+        var subcat_id = $("#get_subcat").val();
+        $.ajax({
+          type: "POST",
+          data: {
+            subcat_id: subcat_id
+          },
+          url: "http://localhost:3000/admin/get_subcat_from_cat?cat_id=" + cat_id,
+          success: function (response) {
+            $("#get_subcat").html(response);
+          }
+        });
+      }
+
+      function readURL(input, id) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            $('#blah' + id).attr('src', e.target.result);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      function myfun(i, k) {
+
+        var cat_id = $('#product_attributea' + i + '_' + k).val();
+        var subcat_id = $('#product_subattribute' + i + '_' + k).val();
+
+        $.ajax({
+          type: "POST",
+          dataType: 'html',
+          data: {
+            subcat_id: subcat_id
+          },
+          url: "http://localhost:3000/admin/get_subattr_from_cat?cat_id=" + cat_id,
+          success: function (response) {
+
+            $('#product_subattribute' + i + '_' + k + '').html(response);
+          }
+        });
+      }
+
+      function show(i, k) {
+        $("#element" + i + '_' + k).show()
+
+      }
+
+      function add(i, k) {
+        const attr_id = document.getElementById("product_attributea" + i + '_' + k).value
+
+        var select = document.getElementById("product_subattribute" + i + '_' + k)
+        var txt = document.getElementById("text" + i + '_' + k).value
+        newOption = document.createElement("OPTION")
+        newOptionVal = document.createTextNode(txt)
+
+        newOption.appendChild(newOptionVal)
+        select.insertBefore(newOption, select.lastChild)
+
+        $("#element" + i + '_' + k).hide()
+
+        $.ajax({
+          type: "POST",
+          dataType: 'html',
+          data: {
+            txt: txt
+          },
+          url: "http://localhost:3000/admin/add?txt=" + txt + "&&attr_id=" + attr_id,
+          success: function (response) {
+
+            if (response == "success") {
+              $("#element" + i + '_' + k).hide()
+
+            }
+          }
+        });
+      }
+    </script>
+    <script>
+
+
+
+
+      function FileListItem(a) {
+        a = [].slice.call(
+          Array.isArray(a)
+            ? a
+            : arguments)
+        for (var c, b = c = a.length, d = !0; b-- && d;)
+          d = a[b] instanceof File
+        if (!d)
+          throw new TypeError("expected argument to FileList is File or array of File objects")
+        for (b = (new ClipboardEvent("")).clipboardData || new DataTransfer; c--;)
+          b.items.add(a[c])
+        return b.files
+      }
+
+      function get_subimages(input, i) {
+        $('div.gallery' + i).html("");
+        imagesPreview(input, 'div.gallery' + i, i);
+      };
+      function imagesPreview(input, placeToInsertImagePreview, productcount) {
+        if (input.files && imageArray.length) {
+          var a = Array.from(input.files);
+          var b = imageArray;
+          var c = b.concat(a);
+          input.files = new FileListItem(c);
+          imageArray = c;
+        } else if (imageArray.length) {
+          var a = new FileListItem(imageArray);
+          input.files = new FileListItem(imageArray);
+          imageArray = a;
+        }
+        if (input.files) {
+          var filesAmount = input.files.length;
+          imageArray = Array.from(input.files);
+          var j = 0;
+          for (i = 0; i < filesAmount; i++) {
+            var currFile = imageArray[i];
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+              j++;
+              var fileName = theFile.name;
+              var id = productcount + '_img' + j;
+              return function (event) {
+                var imgpath = event.target.result;
+
+                if (imgpath == "data:") {
+                  imgpath = fileName;
+                }
+                $($.parseHTML('<span id="' + id +
+                  '" style="position: relative;"><img   style="max-height:100px;max-width:100px;margin:5px;cursor:pointer;" src="' +
+                  imgpath +
+                  '"><span class="remove_img_preview" onclick="remove_image(\'' + id +
+                  '\',' + productcount + ',' + j + ',\'' + fileName +
+                  '\')"></span></span>')).appendTo(placeToInsertImagePreview);
+              };
+            })(currFile);
+
+            reader.readAsDataURL(input.files[i]);
+
+          }
+        }
+      };
+
+
+
+      function remove_image(id, i, j, img) {
+        var a = Array.from($("#subimage_file1")[0].files);
+        a = a.filter(function (elem) {
+          return elem.name != img;
+        });
+        imageArray = a;
+        $("#subimage_file1")[0].files = new FileListItem(a);
+
+        $("#" + id).remove();
+
+      }
+    </script>
+    <script>
+      function readURL1(input, id) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            $('#color_blah' + id).attr('src', e.target.result);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+
+      function get_subimages2(input, i, k) {
+        $('div.gallery' + i + '_' + k).html("");
+        imagesPreview2(input, 'div.gallery' + i + '_' + k, i, k);
+      };
+
+
+      function imagesPreview2(input, placeToInsertImagePreview, productcount, k) {
+
+        if (imageArray1[k] == null) {
+          imageArray1[k] = [];
+        }
+        if (input.files && imageArray1[k].length > 0) {
+          var a = Array.from(input.files);
+          var b = imageArray1[k];
+          if (b[b.length - 1] && b[b.length - 1].length > 1) {
+            b = b[b.length - 1];
+          }
+
+          var c = b.concat(a);
+          input.files = new FileListItem(c);
+          imageArray1[k] = c;
+        } else if (imageArray1[k].length) {
+          var a = new FileListItem(imageArray1[k]);
+          input.files = new FileListItem(imageArray1[k]);
+          imageArray1[k] = a;
+        }
+
+        if (input.files) {
+          var filesAmount = input.files.length;
+          imageArray1[k] = Array.from(input.files);
+          var j = 0;
+          var z = 0;
+          for (i = 0; i < filesAmount; i++) {
+
+            var currFile = imageArray1[k][i];
+
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+              j++;
+              var fileName = theFile.name;
+              var id = productcount + '_img' + j + k;
+              var nw_img_name = fileName.replace(".", "_");
+              return function (event) {
+                var imgpath = event.target.result;
+
+                if (imgpath == "data:") {
+                  imgpath = fileName;
+                }
+                $($.parseHTML('<span id="' + id + '" class="' + nw_img_name + '"><img   style="max-height:100px;max-width:100px;margin:5px;cursor:pointer;" src="' + imgpath + '"><span class="remove_img_preview" onclick="remove_image2(\'' + id + '\',' + k + ',' + j + ',\'' + productcount + '\',\'' + fileName + '\')"></span></span>')).appendTo(placeToInsertImagePreview);
+              };
+            })(currFile);
+
+            reader.readAsDataURL(input.files[i]);
+
+          }
+        }
+      }
+      function remove_image2(id, k, j, i, img) {
+        var a = Array.from($("#subimage_file_color" + i + '_' + k)[0].files);
+        a = a.filter(function (elem) {
+          return elem.name != img;
+        });
+        imageArray1[k] = a;
+        $("#subimage_file_color" + i + '_' + k)[0].files = new FileListItem(a);
+
+        $("#" + id).remove();
+
+      }
+
+    </script>
+    <script>
+      function add_color(i) {
+
+        var k = $("#total_color" + i).val();
+        var m = k - 1;
+
+
+        var append_color = '<div id="colors' + i + '_' + k +
+          '" colorss> <input type="hidden" value="' + k +
+          '" id="total_color_array1" name="total_color_array' + i +
+          '[]"><input type="hidden" value="" name="old_color_id_array' + i +
+          '[]"><div class="row col-md-12" style="border: 0.5px solid;margin-top: 20px;"><div class="form-group col-md-4" ><label class="form-label">Select Color</label><select class="select2-demo form-control color_dis" id="selected_color' +
+          i + '_' + k + '" name="selected_color"><option value="">Select Color</option><% data12.forEach(function(data12) { %> <option value="<%= data12.saname %>">   <%= data12.saname %>  </option> <% })%></select></div><div class="form-group col-md-5" ><label class="form-label">Select Image</label><input type="file" name="image_file_color' +
+          i + '[]" accept="image/*,video/*" class="form-control batch" onchange="readURL1(this,' + i + '_' + k +
+          ');" id="image_file_color' + i + '"><img id="color_blah' + i + '' + k +
+          '"  style="max-width:150px;max-height:150px;margin: auto;padding: 10px;"></div><div class="form-group col-md-12"><label class="form-label col-md-12">Select Sub-Images</label><input type="file" name="subimage_file_color' +
+          i + '_' + k + '[]" accept="image/*,video/*" class="form-control batch11" multiple onchange="get_subimages2(this,' + i +
+          ',' + k + ');" id="subimage_file_color' + i + '_' + k + '"><div class="gallery' + i + '_' + k +
+          ' gallery_color1"></div></div><button style="margin: 8px;border-radius: 25px;background: green;" type="button" class="btn btn-info" onclick="add_color(1)"><i class="fa fa-plus" aria-hidden="true"></i></button><button type="button" style="background:red; margin-left: 77%; margin-bottom: 8px;margin-top: 8px;border-radius: 25px;color:white" class="btn btn-round btn-default" onclick="remove_color(' +
+          i + ',' + k +
+          ')"><i class="fa fa-minus" aria-hidden="true"></i></button></div></div><br>';
+
+        $(".color_btn" + i).append(append_color);
+        k++;
+        $("#total_color" + i).val(k);
+        chnagedrop_color()
+      }
+      function chnagedrop_color() {
+        $(".color_dis option").removeAttr('disabled');
+        $(".color_dis :selected").each(function () {
+          var selectedValue = $(this).val();
+          $(".color_dis option[value='" + selectedValue + "']").prop('disabled', true);
+        });
+        $(".select2-demo").select2();
+      }
+      $(document).on('change', '.color_dis', function () {
+        chnagedrop_color()
+      })
+      function remove_color(i, k) {
+        var j = $("#total_color" + i).val();
+        var remove = parseInt(j) - 1;
+
+        $("#colors" + i + "_" + k).remove();
+        if (k == remove) {
+          $("#total_color" + i).val(remove);
+        }
+        if (!jQuery("div").hasClass("colorss")) {
+          $("#total_color" + i).val(1);
+        }
+        /* $("#colors"+i+"_"+remove).remove();
+        $("#total_color"+i).val(remove); */
+        chnagedrop_color()
+      
+      }
+      function submit_product(i, k) {
+        console.log('yess...');
+    var a = document.getElementById('selected_color'+i+'_'+k).value
+    console.log(a);
+        var form = document.getElementById("my_form");
+        form.submit();
+
+        
+        }
+
+      
+    </script>
+
+</body>
+
+</html>
